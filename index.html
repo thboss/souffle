@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOUFFLÉ | سـوفـلـيـة — Sweet & Coffee</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter, Montserrat & Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                        condensed: ['Oswald', 'sans-serif'],
+                        arabic: ['Cairo', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom subtle noise and animations */
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-4px); }
+        }
+        .animate-float {
+            animation: floatSlow 5s ease-in-out infinite;
+        }
+        .link-card {
+            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .link-card:hover {
+            transform: translateY(-3px) scale(1.01);
+        }
+        .link-card:active {
+            transform: translateY(0px) scale(0.99);
+        }
+        /* Subtle radial grid pattern */
+        .bg-grid-pattern {
+            background-size: 28px 28px;
+            background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+        }
+        html[dir="rtl"] body {
+            font-family: 'Cairo', 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-white text-black dark:bg-[#0a0a0a] dark:text-white min-h-screen flex flex-col justify-between relative selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black transition-colors duration-500 overflow-x-hidden">
+
+    <!-- Subtle Decorative Background Grid -->
+    <div class="fixed inset-0 pointer-events-none opacity-[0.05] dark:opacity-[0.07] bg-grid-pattern"></div>
+
+    <!-- Top Utility Bar -->
+    <header class="w-full max-w-md mx-auto px-6 pt-6 flex items-center justify-between z-10">
+        <!-- Status Pill -->
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-black/15 dark:border-white/15 bg-black/[0.02] dark:bg-white/[0.03] text-xs font-medium tracking-wider uppercase">
+            <span class="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse"></span>
+            <span data-en="Sweet &amp; Coffee" data-ar="حلى وقهوة">Sweet &amp; Coffee</span>
+        </div>
+
+        <!-- Action Buttons: Language, QR & Theme Switch -->
+        <div class="flex items-center gap-2">
+            <button id="langToggle" aria-label="Switch Language" class="px-3 py-2 rounded-full border border-black/15 dark:border-white/15 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-200 text-xs font-bold tracking-wider flex items-center gap-1.5" title="تغيير اللغة / Switch Language">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path>
+                </svg>
+                <span id="langBtnLabel" class="font-arabic">عربي</span>
+            </button>
+            <button id="qrBtn" aria-label="Show QR Code" class="p-2.5 rounded-full border border-black/15 dark:border-white/15 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-200" title="Share & QR Code">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h6v6H3V3zm12 0h6v6h-6V3zM3 15h6v6H3v-6zm13 0h2v2h-2v-2zm3 3h2v3h-2v-3zm-3 3h2v-2h-2v2zm3-6h2v2h-2v-2z"/>
+                </svg>
+            </button>
+            <button id="themeToggle" aria-label="Toggle Black/White Theme" class="p-2.5 rounded-full border border-black/15 dark:border-white/15 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors duration-200" title="Invert Black / White Theme">
+                <!-- Moon Icon (shown in light mode) -->
+                <svg id="moonIcon" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                </svg>
+                <!-- Sun Icon (shown in dark mode) -->
+                <svg id="sunIcon" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="w-full max-w-md mx-auto px-6 py-8 flex-1 flex flex-col justify-center z-10">
+        
+        <!-- Brand Logo Section (Recreated as crisp scalable Vector SVG from uploaded image) -->
+        <div class="flex flex-col items-center text-center mb-9">
+            <div class="w-full max-w-[290px] sm:max-w-[320px] py-4 px-2 animate-float">
+                <!-- Recreated Exact Vector SVG of the SOUFFLÉ Arabic + English Logo -->
+                <svg viewBox="0 0 800 450" class="w-full h-auto fill-current text-black dark:text-white transition-colors duration-500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="SOUFFLÉ Sweet & Coffee Logo">
+                    <!-- Top Diamond above Fa (ف) -->
+                    <polygon points="376,12 402,38 376,64 350,38" />
+                    
+                    <!-- Two Dots (Rectangles) above Ta Marbuta (ة) -->
+                    <rect x="26" y="92" width="64" height="30" />
+
+                    <!-- Two Diamonds below Ya (ي) -->
+                    <polygon points="196,192 220,216 196,240 172,216" />
+                    <polygon points="234,192 258,216 234,240 210,216" />
+
+                    <!-- Arabic Calligraphy Body: سـوفـلـيـة -->
+                    <!-- Left segment: فـلـيـة -->
+                    <path d="M 18,184 
+                             C 26,144 48,125 76,125 
+                             C 106,125 122,158 140,158 
+                             C 158,158 175,134 180,108 
+                             C 192,148 214,167 244,173 
+                             L 244,68 
+                             L 288,24 
+                             L 288,153 
+                             L 428,153 
+                             C 424,180 400,192 365,192 
+                             L 235,192 
+                             C 214,192 195,180 180,152 
+                             C 174,174 162,188 152,193 
+                             C 130,173 102,167 74,167 
+                             C 46,167 28,175 18,184 Z" />
+
+                    <!-- Fa (ف) loop head -->
+                    <path d="M 428,150 
+                             L 382,150 
+                             C 355,150 343,132 343,108 
+                             C 343,82 362,64 386,64 
+                             C 412,64 428,84 428,114 Z" />
+
+                    <!-- Right segment: سـو -->
+                    <!-- Seen (س) sweeping tail + Waw (و) head -->
+                    <path d="M 784,84 
+                             C 785,155 764,192 705,192 
+                             L 585,192 
+                             C 555,192 542,178 534,160 
+                             L 500,160 
+                             C 466,160 448,139 448,112 
+                             C 448,84 468,64 494,64 
+                             C 520,64 535,88 535,116 
+                             L 535,150 
+                             C 556,158 595,152 645,136 
+                             C 700,118 750,100 784,84 Z" />
+
+                    <!-- Waw (و) lower leaf drop -->
+                    <path d="M 534,162 
+                             C 534,196 508,214 468,213 
+                             C 476,184 498,166 534,162 Z" />
+
+                    <!-- English Title: SOUFFLÉ -->
+                    <g font-family="Montserrat, Inter, sans-serif" font-weight="400" font-size="146" letter-spacing="14" text-anchor="middle">
+                        <text x="404" y="362">SOUFFLÉ</text>
+                    </g>
+
+                    <!-- Subtitle: SWEET & COFFEE -->
+                    <g font-family="Oswald, sans-serif" font-weight="700" font-size="38" letter-spacing="4.5" text-anchor="middle">
+                        <text x="394" y="438">SWEET &amp; COFFEE</text>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Interactive Handle Badge -->
+            <button id="copyHandleBtn" class="group mt-2 inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-black/[0.04] dark:bg-white/[0.06] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black border border-black/10 dark:border-white/10 transition-all duration-200 cursor-pointer" dir="ltr">
+                <span class="text-sm font-mono font-medium tracking-wide">@Souffle.2027</span>
+                <span class="text-xs opacity-60 group-hover:opacity-100 flex items-center gap-1 border-l border-current pl-2">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+                    </svg>
+                    <span id="copyBadgeText" data-en="Copy" data-ar="نسخ">Copy</span>
+                </span>
+            </button>
+        </div>
+
+        <!-- Social Media Links Section -->
+        <div class="space-y-4 w-full" aria-label="Social Media Links">
+            
+            <!-- Instagram Card -->
+            <a href="https://www.instagram.com/Souffle.2027" target="_blank" rel="noopener noreferrer" 
+               class="link-card group relative w-full flex items-center justify-between p-5 rounded-2xl bg-black text-white dark:bg-white dark:text-black border-2 border-black dark:border-white shadow-[0_10px_25px_-5px_rgba(0,0,0,0.18)] dark:shadow-[0_10px_25px_-5px_rgba(255,255,255,0.1)] overflow-hidden">
+                
+                <div class="flex items-center gap-4 z-10">
+                    <div class="w-12 h-12 rounded-xl bg-white/10 dark:bg-black/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                        <!-- Instagram Vector Icon -->
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </div>
+                    <div class="text-start">
+                        <span class="block text-[11px] uppercase tracking-[0.2em] opacity-70 font-semibold" data-en="Instagram" data-ar="انستغرام">Instagram</span>
+                        <span class="block text-lg font-bold tracking-tight" dir="ltr">@Souffle.2027</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 z-10">
+                    <span class="text-xs font-medium uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-200 hidden sm:inline" data-en="Follow" data-ar="متابعة">Follow</span>
+                    <div class="w-9 h-9 rounded-full bg-white/10 dark:bg-black/10 flex items-center justify-center group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8M17 7V16"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <!-- TikTok Card -->
+            <a href="https://www.tiktok.com/@Souffle.2027" target="_blank" rel="noopener noreferrer" 
+               class="link-card group relative w-full flex items-center justify-between p-5 rounded-2xl bg-white text-black dark:bg-[#121212] dark:text-white border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black shadow-sm transition-colors duration-300 overflow-hidden">
+                
+                <div class="flex items-center gap-4 z-10">
+                    <div class="w-12 h-12 rounded-xl bg-black/[0.06] dark:bg-white/[0.08] group-hover:bg-white/15 dark:group-hover:bg-black/10 flex items-center justify-center group-hover:scale-110 transition-all duration-300">
+                        <!-- TikTok Vector Icon -->
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                        </svg>
+                    </div>
+                    <div class="text-start">
+                        <span class="block text-[11px] uppercase tracking-[0.2em] opacity-65 group-hover:opacity-80 font-semibold" data-en="TikTok" data-ar="تيك توك">TikTok</span>
+                        <span class="block text-lg font-bold tracking-tight" dir="ltr">@Souffle.2027</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 z-10">
+                    <span class="text-xs font-medium uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-200 hidden sm:inline" data-en="Watch" data-ar="مشاهدة">Watch</span>
+                    <div class="w-9 h-9 rounded-full bg-black/[0.06] dark:bg-white/[0.08] group-hover:bg-white/15 dark:group-hover:bg-black/10 flex items-center justify-center group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M17 7H8M17 7V16"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Menu Template Section -->
+        <section id="menuSection" class="mt-10 pt-8 border-t-2 border-black dark:border-white w-full" aria-label="Menu">
+            <!-- Section Header -->
+            <div class="flex items-end justify-between mb-5">
+                <div>
+                    <span class="block text-[10px] uppercase tracking-[0.25em] opacity-60 font-semibold" data-en="Our Selection" data-ar="مختاراتنا">Our Selection</span>
+                    <h2 class="text-2xl font-display font-bold tracking-tight uppercase" data-en="Menu" data-ar="قائمة الطعام">Menu</h2>
+                </div>
+                <span class="text-[11px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-full border border-black/20 dark:border-white/20 opacity-75" data-en="Prices in SAR" data-ar="الأسعار بالريال">
+                    Prices in SAR
+                </span>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-5 no-scrollbar" role="tablist">
+                <button data-category="all" class="menu-tab active-tab shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border border-black dark:border-white bg-black text-white dark:bg-white dark:text-black transition-all" data-en="All" data-ar="الكل">
+                    All
+                </button>
+                <button data-category="souffle" class="menu-tab shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white transition-all" data-en="Soufflé &amp; Sweets" data-ar="سوفليه وحلويات">
+                    Soufflé &amp; Sweets
+                </button>
+                <button data-category="hot" class="menu-tab shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white transition-all" data-en="Hot Coffee" data-ar="قهوة ساخنة">
+                    Hot Coffee
+                </button>
+                <button data-category="cold" class="menu-tab shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white transition-all" data-en="Iced &amp; Cold" data-ar="مشروبات باردة">
+                    Iced &amp; Cold
+                </button>
+            </div>
+
+            <!-- Menu Sections Container -->
+            <div class="space-y-7">
+
+                <!-- Category 1: Signature Soufflé & Sweets -->
+                <div class="menu-group space-y-3" data-group="souffle">
+                    <div class="flex items-center justify-between border-b border-black/15 dark:border-white/15 pb-2">
+                        <h3 class="text-xs font-bold uppercase tracking-[0.15em]" data-en="01 / Signature Soufflé &amp; Sweets" data-ar="٠١ / سوفليه وحلويات">01 / Signature Soufflé &amp; Sweets</h3>
+                    </div>
+
+                    <!-- Item 1 -->
+                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h4 class="font-bold text-sm tracking-tight" data-en="Classic Chocolate Soufflé" data-ar="سوفليه الشوكولاتة الكلاسيكي">Classic Chocolate Soufflé</h4>
+                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-black text-white dark:bg-white dark:text-black" data-en="Signature" data-ar="مميز">Signature</span>
+                            </div>
+                            <span class="font-mono font-bold text-sm shrink-0" data-en="28 SAR" data-ar="٢٨ ر.س">28 SAR</span>
+                        </div>
+                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Warm airy dark chocolate soufflé served with vanilla bean ice cream." data-ar="سوفليه الشوكولاتة الداكنة الدافئ والهش يُقدم مع آيس كريم الفانيلا.">Warm airy dark chocolate soufflé served with vanilla bean ice cream.</p>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
+                            <span data-en="🔥 420 kcal" data-ar="🔥 ٤٢٠ سعرة حرارية">🔥 420 kcal</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <h4 class="font-bold text-sm tracking-tight" data-en="Pistachio Crème Soufflé" data-ar="سوفليه كريمة الفستق">Pistachio Crème Soufflé</h4>
+                            <span class="font-mono font-bold text-sm shrink-0" data-en="32 SAR" data-ar="٣٢ ر.س">32 SAR</span>
+                        </div>
+                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Fluffy soufflé infused with roasted pistachio sauce and crushed nuts." data-ar="سوفليه هش غني بصوص الفستق المحمص وقطع المكسرات.">Fluffy soufflé infused with roasted pistachio sauce and crushed nuts.</p>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
+                            <span data-en="🔥 480 kcal" data-ar="🔥 ٤٨٠ سعرة حرارية">🔥 480 kcal</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <h4 class="font-bold text-sm tracking-tight" data-en="Japanese Cloud Pancakes" data-ar="بان كيك السحاب الياباني">Japanese Cloud Pancakes</h4>
+                            <span class="font-mono font-bold text-sm shrink-0" data-en="30 SAR" data-ar="٣٠ ر.س">30 SAR</span>
+                        </div>
+                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Two ultra-fluffy soufflé pancakes topped with whipped cream and maple syrup." data-ar="قطعتان من بان كيك السوفليه الفائق الهشاشة مع الكريمة المخفوقة وشراب القيقب.">Two ultra-fluffy soufflé pancakes topped with whipped cream and maple syrup.</p>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
+                            <span data-en="🔥 390 kcal" data-ar="🔥 ٣٩٠ سعرة حرارية">🔥 390 kcal</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <h4 class="font-bold text-sm tracking-tight" data-en="San Sebastian Cheesecake" data-ar="تشيز كيك سان سيباستيان">San Sebastian Cheesecake</h4>
+                            <span class="font-mono font-bold text-sm shrink-0" data-en="26 SAR" data-ar="٢٦ ر.س">26 SAR</span>
+                        </div>
+                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Creamy caramelized Basque cheesecake poured with warm Belgian chocolate." data-ar="تشيز كيك كريمي مكرمل يُقدم مع صوص الشوكولاتة البلجيكية الدافئة.">Creamy caramelized Basque cheesecake poured with warm Belgian chocolate.</p>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
+                            <span data-en="🔥 510 kcal" data-ar="🔥 ٥١٠ سعرة حرارية">🔥 510 kcal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 2: Hot Coffee -->
+                <div class="menu-group space-y-3" data-group="hot">
+                    <div class="flex items-center justify-between border-b border-black/15 dark:border-white/15 pb-2">
+                        <h3 class="text-xs font-bold uppercase tracking-[0.15em]" data-en="02 / Hot Coffee" data-ar="٠٢ / قهوة ساخنة">02 / Hot Coffee</h3>
+                    </div>
+
+                    <!-- Item 1 -->
+                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <h4 class="font-bold text-sm tracking-tight" data-en="V60 Pour Over" data-ar="قهوة مقطرة V60">V60 Pour Over</h4>
+                            <span class="font-mono font-bold text-sm shrink-0" data-en="18 SAR" data-ar="١٨ ر.س">18 SAR</span>
+                        </div>
+                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Single-origin specialty filter coffee brewed to highlight floral &amp; fruity notes." data-ar="قهوة مختصة مقطرة بعناية لإبراز الإيحاءات الزهرية والفاكهية.">Single-origin specialty filter coffee brewed to highlight floral &amp; fruity notes.</p>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
+                            <span data-en="🔥 5 kcal" data-ar="🔥 ٥ سعرة حرارية">🔥 5 kcal</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <h4 class="font-bold text-sm tracking-tight" data-en="Flat White" data-ar="فلات وايت">Flat White</h4>
+                            <span class="font-mono font-bold text-sm shrink-0" data-en="16 SAR" data-ar="١٦ ر.س">16 SAR</span>
+                        </div>
+                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Double ristretto shot balanced with silky micro-foamed milk." data-ar="دبل شوت ريستريتو متوازن مع حليب مبخر ناعم.">Double ristretto shot balanced with silky micro-foamed milk.</p>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
+                            <span data-en="🔥 110 kcal" data-ar="🔥 ١١٠ سعرة حرارية">🔥 110 kcal</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <h4 class="font-bold text-sm tracking-tight" data-en="Spanish Latte (Hot)" data-ar="سبانش لاتيه (حار)">Spanish Latte (Hot)</h4>
+                            <span class="font-mono font-bold text-sm shrink-0" data-en="19 SAR" data-ar="١٩ ر.س">19 SAR</span>
+                        </div>
+                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Rich espresso blended with steamed milk and sweetened condensed milk." data-ar="إسبريسو غني ممزوج مع الحليب المبخر والحليب المكثف المحلى.">Rich espresso blended with steamed milk and sweetened condensed milk.</p>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
+                            <span data-en="🔥 230 kcal" data-ar="🔥 ٢٣٠ سعرة حرارية">🔥 230 kcal</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <h4 class="font-bold text-sm tracking-tight" data-en="Coffee of the Day" data-ar="قهوة اليوم">Coffee of the Day</h4>
+                            <span class="font-mono font-bold text-sm shrink-0" data-en="12 SAR" data-ar="١٢ ر.س">12 SAR</span>
+                        </div>
+                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Freshly brewed daily selection of specialty black coffee." data-ar="قهوة سوداء مختصة تُحضر طازجة يومياً.">Freshly brewed daily selection of specialty black coffee.</p>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
+                            <span data-en="🔥 5 kcal" data-ar="🔥 ٥ سعرة حرارية">🔥 5 kcal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 3: Iced & Cold Drinks -->
+                <div class="menu-group space-y-3" data-group="cold">
+                    <div class="flex items-center justify-between border-b border-black/15 dark:border-white/15 pb-2">
+                        <h3 class="text-xs font-bold uppercase tracking-[0.15em]" data-en="03 / Iced &amp; Cold Coffee" data-ar="٠٣ / المشروبات الباردة">03 / Iced &amp; Cold Coffee</h3>
+                    </div>
+
+                    <!-- Item 1 -->
+                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h4 class="font-bold text-sm tracking-tight" data-en="Iced Soufflé Latte" data-ar="آيس سوفليه لاتيه">Iced Soufflé Latte</h4>
+                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-black text-white dark:bg-white dark:text-black" data-en="Popular" data-ar="الأكثر طلباً">Popular</span>
+                            </div>
+                            <span class="font-mono font-bold text-sm shrink-0" data-en="22 SAR" data-ar="٢٢ ر.س">22 SAR</span>
+                        </div>
+                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Chilled espresso over milk topped with our signature whipped vanilla cold foam." data-ar="إسبريسو بارد مع الحليب ومغطى برغوة الفانيلا الباردة الخاصة بنا.">Chilled espresso over milk topped with our signature whipped vanilla cold foam.</p>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
+                            <span data-en="🔥 260 kcal" data-ar="🔥 ٢٦٠ سعرة حرارية">🔥 260 kcal</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <h4 class="font-bold text-sm tracking-tight" data-en="Iced Spanish Latte" data-ar="آيس سبانش لاتيه">Iced Spanish Latte</h4>
+                            <span class="font-mono font-bold text-sm shrink-0" data-en="20 SAR" data-ar="٢٠ ر.س">20 SAR</span>
+                        </div>
+                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Double espresso shaken with cold milk and creamy condensed milk over ice." data-ar="دبل إسبريسو مخفوق مع الحليب البارد والحليب المكثف المحلى مع الثلج.">Double espresso shaken with cold milk and creamy condensed milk over ice.</p>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
+                            <span data-en="🔥 240 kcal" data-ar="🔥 ٢٤٠ سعرة حرارية">🔥 240 kcal</span>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
+                        <div class="flex items-baseline justify-between gap-2">
+                            <h4 class="font-bold text-sm tracking-tight" data-en="Iced Karkadeh / Hibiscus" data-ar="كركديه بارد">Iced Karkadeh / Hibiscus</h4>
+                            <span class="font-mono font-bold text-sm shrink-0" data-en="17 SAR" data-ar="١٧ ر.س">17 SAR</span>
+                        </div>
+                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Refreshing ruby hibiscus infusion served ice-cold with a hint of mint." data-ar="مشروب الكركديه المنعش يُقدم مثلجاً مع لمسة من النعناع.">Refreshing ruby hibiscus infusion served ice-cold with a hint of mint.</p>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
+                            <span data-en="🔥 85 kcal" data-ar="🔥 ٨٥ سعرة حرارية">🔥 85 kcal</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Nutritional Footnote -->
+            <p class="mt-5 text-[11px] opacity-50 text-center leading-relaxed" data-en="* Adults need an average of 2,000 kcal per day. Individual calorie needs may vary." data-ar="* يحتاج البالغون إلى ٢٠٠٠ سعرة حرارية في المتوسط يومياً، وقد تختلف الاحتياجات الفردية من شخص لآخر.">
+                * Adults need an average of 2,000 kcal per day. Individual calorie needs may vary.
+            </p>
+        </section>
+
+        <!-- Minimal Divider & Tagline -->
+        <div class="mt-10 pt-6 border-t border-black/10 dark:border-white/10 flex items-center justify-between text-xs uppercase tracking-[0.18em] opacity-60">
+            <span data-en="Freshly Crafted" data-ar="يُحضر طازجاً">Freshly Crafted</span>
+            <span class="font-arabic tracking-normal text-sm font-semibold">سـوفـلـيـة</span>
+            <span data-en="Daily" data-ar="يومياً">Daily</span>
+        </div>
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="w-full max-w-md mx-auto px-6 pb-6 text-center z-10">
+        <p class="text-[11px] tracking-widest uppercase opacity-45">
+            &copy; <span id="yearSpan"></span> <span data-en="SOUFFLÉ • All Rights Reserved" data-ar="سوفليه • جميع الحقوق محفوظة">SOUFFLÉ • All Rights Reserved</span>
+        </p>
+    </footer>
+
+    <!-- Toast Notification for Copy Action -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-20 opacity-0 pointer-events-none z-50 px-5 py-3 rounded-full bg-black text-white dark:bg-white dark:text-black text-xs font-semibold uppercase tracking-widest shadow-xl transition-all duration-300 flex items-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        </svg>
+        <span id="toastMessage">Copied @Souffle.2027</span>
+    </div>
+
+    <!-- QR Code & Quick Share Modal -->
+    <div id="qrModal" class="fixed inset-0 z-50 hidden items-center justify-center p-6 bg-black/60 backdrop-blur-sm opacity-0 transition-opacity duration-300">
+        <div class="bg-white text-black dark:bg-[#111] dark:text-white border border-black/15 dark:border-white/15 rounded-3xl max-w-xs w-full p-6 text-center shadow-2xl transform scale-95 transition-transform duration-300" id="qrModalCard">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-xs font-bold uppercase tracking-widest opacity-60" data-en="Scan or Share" data-ar="امسح الرمز أو شارك">Scan or Share</span>
+                <button id="closeQrBtn" class="p-1.5 rounded-full hover:bg-black/10 dark:hover:bg-white/10 transition-colors" aria-label="Close modal">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Tabs for Instagram / TikTok QR -->
+            <div class="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-black/5 dark:bg-white/5 mb-5 text-xs font-semibold">
+                <button id="qrTabIg" class="py-2 rounded-lg bg-black text-white dark:bg-white dark:text-black transition-all" data-en="Instagram" data-ar="انستغرام">Instagram</button>
+                <button id="qrTabTt" class="py-2 rounded-lg opacity-60 hover:opacity-100 transition-all" data-en="TikTok" data-ar="تيك توك">TikTok</button>
+            </div>
+
+            <!-- Generated SVG QR-Style Visual Frame -->
+            <div class="bg-white p-4 rounded-2xl border border-black/10 inline-block mb-4 shadow-inner">
+                <img id="qrImage" 
+                     src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=000000&bgcolor=ffffff&data=https://www.instagram.com/Souffle.2027" 
+                     alt="QR Code for Souffle.2027" 
+                     class="w-44 h-44 mx-auto rounded-lg"
+                     onerror="this.onerror=null; this.src='https://placehold.co/200x200/000000/ffffff?text=Souffle.2027';">
+            </div>
+
+            <p id="qrPlatformLabel" class="text-sm font-bold tracking-wide mb-1" dir="ltr">Instagram: @Souffle.2027</p>
+            <p class="text-xs opacity-60 mb-5" data-en="Point your camera to open profile directly" data-ar="وجه الكاميرا لفتح الحساب مباشرة">Point your camera to open profile directly</p>
+
+            <button id="copyUrlBtn" class="w-full py-3 rounded-xl bg-black text-white dark:bg-white dark:text-black text-xs font-bold uppercase tracking-widest hover:opacity-90 transition-opacity" data-en="Copy Profile Link" data-ar="نسخ رابط الحساب">
+                Copy Profile Link
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Set current year in footer
+        document.getElementById('yearSpan').textContent = new Date().getFullYear();
+
+        // Language state ('en' or 'ar')
+        let currentLang = 'en';
+        const langToggle = document.getElementById('langToggle');
+        const langBtnLabel = document.getElementById('langBtnLabel');
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            const htmlEl = document.documentElement;
+            htmlEl.setAttribute('lang', lang);
+            htmlEl.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+            // Update toggle button label
+            if (lang === 'ar') {
+                langBtnLabel.textContent = 'EN';
+                langBtnLabel.classList.remove('font-arabic');
+            } else {
+                langBtnLabel.textContent = 'عربي';
+                langBtnLabel.classList.add('font-arabic');
+            }
+
+            // Update all bilingual elements
+            const translatableElements = document.querySelectorAll('[data-en][data-ar]');
+            translatableElements.forEach(el => {
+                el.textContent = el.getAttribute('data-' + lang);
+            });
+        }
+
+        langToggle.addEventListener('click', () => {
+            setLanguage(currentLang === 'en' ? 'ar' : 'en');
+        });
+
+        // Clipboard helper compatible with iframe restrictions
+        function copyTextToClipboard(text, message) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast(message || ('Copied ' + text));
+            } catch (err) {
+                showToast('Handle: @Souffle.2027');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // Toast notification controller
+        let toastTimeout;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 2400);
+        }
+
+        // Copy Handle Button
+        const copyHandleBtn = document.getElementById('copyHandleBtn');
+        const copyBadgeText = document.getElementById('copyBadgeText');
+        copyHandleBtn.addEventListener('click', () => {
+            const copiedToast = currentLang === 'ar' ? 'تم نسخ @Souffle.2027' : 'Copied @Souffle.2027';
+            copyTextToClipboard('Souffle.2027', copiedToast);
+            copyBadgeText.textContent = currentLang === 'ar' ? 'تم النسخ!' : 'Copied!';
+            setTimeout(() => {
+                copyBadgeText.textContent = currentLang === 'ar' ? 'نسخ' : 'Copy';
+            }, 2000);
+        });
+
+        // Theme Toggle (Black on White <-> White on Black)
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+        });
+
+        // QR Code Modal Logic
+        const qrBtn = document.getElementById('qrBtn');
+        const qrModal = document.getElementById('qrModal');
+        const qrModalCard = document.getElementById('qrModalCard');
+        const closeQrBtn = document.getElementById('closeQrBtn');
+        const qrTabIg = document.getElementById('qrTabIg');
+        const qrTabTt = document.getElementById('qrTabTt');
+        const qrImage = document.getElementById('qrImage');
+        const qrPlatformLabel = document.getElementById('qrPlatformLabel');
+        const copyUrlBtn = document.getElementById('copyUrlBtn');
+
+        let currentQrUrl = 'https://www.instagram.com/Souffle.2027';
+
+        function openQrModal() {
+            qrModal.classList.remove('hidden');
+            qrModal.classList.add('flex');
+            requestAnimationFrame(() => {
+                qrModal.classList.remove('opacity-0');
+                qrModalCard.classList.remove('scale-95');
+                qrModalCard.classList.add('scale-100');
+            });
+        }
+
+        function closeQrModal() {
+            qrModal.classList.add('opacity-0');
+            qrModalCard.classList.remove('scale-100');
+            qrModalCard.classList.add('scale-95');
+            setTimeout(() => {
+                qrModal.classList.add('hidden');
+                qrModal.classList.remove('flex');
+            }, 250);
+        }
+
+        qrBtn.addEventListener('click', openQrModal);
+        closeQrBtn.addEventListener('click', closeQrModal);
+        qrModal.addEventListener('click', (e) => {
+            if (e.target === qrModal) closeQrModal();
+        });
+
+        qrTabIg.addEventListener('click', () => {
+            currentQrUrl = 'https://www.instagram.com/Souffle.2027';
+            qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=000000&bgcolor=ffffff&data=' + encodeURIComponent(currentQrUrl);
+            qrPlatformLabel.textContent = 'Instagram: @Souffle.2027';
+            qrTabIg.className = 'py-2 rounded-lg bg-black text-white dark:bg-white dark:text-black transition-all';
+            qrTabTt.className = 'py-2 rounded-lg opacity-60 hover:opacity-100 transition-all';
+        });
+
+        qrTabTt.addEventListener('click', () => {
+            currentQrUrl = 'https://www.tiktok.com/@Souffle.2027';
+            qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=000000&bgcolor=ffffff&data=' + encodeURIComponent(currentQrUrl);
+            qrPlatformLabel.textContent = 'TikTok: @Souffle.2027';
+            qrTabTt.className = 'py-2 rounded-lg bg-black text-white dark:bg-white dark:text-black transition-all';
+            qrTabIg.className = 'py-2 rounded-lg opacity-60 hover:opacity-100 transition-all';
+        });
+
+        copyUrlBtn.addEventListener('click', () => {
+            const linkToast = currentLang === 'ar' ? 'تم نسخ رابط الحساب!' : 'Profile link copied!';
+            copyTextToClipboard(currentQrUrl, linkToast);
+        });
+
+        // Menu Category Tabs Filter Logic
+        const menuTabs = document.querySelectorAll('.menu-tab');
+        const menuGroups = document.querySelectorAll('.menu-group');
+
+        menuTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const selectedCategory = tab.getAttribute('data-category');
+
+                // Update active button styling
+                menuTabs.forEach(t => {
+                    t.className = 'menu-tab shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white transition-all';
+                });
+                tab.className = 'menu-tab active-tab shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border border-black dark:border-white bg-black text-white dark:bg-white dark:text-black transition-all';
+
+                // Show/Hide corresponding menu sections
+                menuGroups.forEach(group => {
+                    if (selectedCategory === 'all' || group.getAttribute('data-group') === selectedCategory) {
+                        group.classList.remove('hidden');
+                    } else {
+                        group.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
