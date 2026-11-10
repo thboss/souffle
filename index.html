@@ -9,7 +9,7 @@
     <!-- Google Fonts: Inter, Montserrat & Cairo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -50,7 +50,9 @@
             background-size: 28px 28px;
             background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
         }
-        html[dir="rtl"] body {
+        html[dir="rtl"] body,
+        html[dir="rtl"] #menuSection .font-display,
+        html[dir="rtl"] #menuSection .font-mono {
             font-family: 'Cairo', 'Inter', sans-serif;
         }
     </style>
@@ -241,7 +243,7 @@
 
         </div>
 
-        <!-- Menu Template Section -->
+        <!-- Menu Section -->
         <section id="menuSection" class="mt-10 pt-8 border-t-2 border-black dark:border-white w-full" aria-label="Menu">
             <!-- Section Header -->
             <div class="flex items-end justify-between mb-5">
@@ -254,190 +256,11 @@
                 </span>
             </div>
 
-            <!-- Category Filter Pills -->
-            <div class="flex items-center gap-2 overflow-x-auto pb-2 mb-5 no-scrollbar" role="tablist">
-                <button data-category="all" class="menu-tab active-tab shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border border-black dark:border-white bg-black text-white dark:bg-white dark:text-black transition-all" data-en="All" data-ar="الكل">
-                    All
-                </button>
-                <button data-category="souffle" class="menu-tab shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white transition-all" data-en="Soufflé &amp; Sweets" data-ar="سوفليه وحلويات">
-                    Soufflé &amp; Sweets
-                </button>
-                <button data-category="hot" class="menu-tab shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white transition-all" data-en="Hot Coffee" data-ar="قهوة ساخنة">
-                    Hot Coffee
-                </button>
-                <button data-category="cold" class="menu-tab shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white transition-all" data-en="Iced &amp; Cold" data-ar="مشروبات باردة">
-                    Iced &amp; Cold
-                </button>
-            </div>
+            <!-- Category Filter Pills (Populated dynamically from MENU_SECTIONS) -->
+            <div id="menuTabs" class="flex flex-wrap items-center gap-2 mb-6" role="tablist"></div>
 
-            <!-- Menu Sections Container -->
-            <div class="space-y-7">
-
-                <!-- Category 1: Signature Soufflé & Sweets -->
-                <div class="menu-group space-y-3" data-group="souffle">
-                    <div class="flex items-center justify-between border-b border-black/15 dark:border-white/15 pb-2">
-                        <h3 class="text-xs font-bold uppercase tracking-[0.15em]" data-en="01 / Signature Soufflé &amp; Sweets" data-ar="٠١ / سوفليه وحلويات">01 / Signature Soufflé &amp; Sweets</h3>
-                    </div>
-
-                    <!-- Item 1 -->
-                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <div class="flex items-center gap-2 flex-wrap">
-                                <h4 class="font-bold text-sm tracking-tight" data-en="Classic Chocolate Soufflé" data-ar="سوفليه الشوكولاتة الكلاسيكي">Classic Chocolate Soufflé</h4>
-                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-black text-white dark:bg-white dark:text-black" data-en="Signature" data-ar="مميز">Signature</span>
-                            </div>
-                            <span class="font-mono font-bold text-sm shrink-0" data-en="28 SAR" data-ar="٢٨ ر.س">28 SAR</span>
-                        </div>
-                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Warm airy dark chocolate soufflé served with vanilla bean ice cream." data-ar="سوفليه الشوكولاتة الداكنة الدافئ والهش يُقدم مع آيس كريم الفانيلا.">Warm airy dark chocolate soufflé served with vanilla bean ice cream.</p>
-                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
-                            <span data-en="🔥 420 kcal" data-ar="🔥 ٤٢٠ سعرة حرارية">🔥 420 kcal</span>
-                        </div>
-                    </div>
-
-                    <!-- Item 2 -->
-                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <h4 class="font-bold text-sm tracking-tight" data-en="Pistachio Crème Soufflé" data-ar="سوفليه كريمة الفستق">Pistachio Crème Soufflé</h4>
-                            <span class="font-mono font-bold text-sm shrink-0" data-en="32 SAR" data-ar="٣٢ ر.س">32 SAR</span>
-                        </div>
-                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Fluffy soufflé infused with roasted pistachio sauce and crushed nuts." data-ar="سوفليه هش غني بصوص الفستق المحمص وقطع المكسرات.">Fluffy soufflé infused with roasted pistachio sauce and crushed nuts.</p>
-                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
-                            <span data-en="🔥 480 kcal" data-ar="🔥 ٤٨٠ سعرة حرارية">🔥 480 kcal</span>
-                        </div>
-                    </div>
-
-                    <!-- Item 3 -->
-                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <h4 class="font-bold text-sm tracking-tight" data-en="Japanese Cloud Pancakes" data-ar="بان كيك السحاب الياباني">Japanese Cloud Pancakes</h4>
-                            <span class="font-mono font-bold text-sm shrink-0" data-en="30 SAR" data-ar="٣٠ ر.س">30 SAR</span>
-                        </div>
-                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Two ultra-fluffy soufflé pancakes topped with whipped cream and maple syrup." data-ar="قطعتان من بان كيك السوفليه الفائق الهشاشة مع الكريمة المخفوقة وشراب القيقب.">Two ultra-fluffy soufflé pancakes topped with whipped cream and maple syrup.</p>
-                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
-                            <span data-en="🔥 390 kcal" data-ar="🔥 ٣٩٠ سعرة حرارية">🔥 390 kcal</span>
-                        </div>
-                    </div>
-
-                    <!-- Item 4 -->
-                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <h4 class="font-bold text-sm tracking-tight" data-en="San Sebastian Cheesecake" data-ar="تشيز كيك سان سيباستيان">San Sebastian Cheesecake</h4>
-                            <span class="font-mono font-bold text-sm shrink-0" data-en="26 SAR" data-ar="٢٦ ر.س">26 SAR</span>
-                        </div>
-                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Creamy caramelized Basque cheesecake poured with warm Belgian chocolate." data-ar="تشيز كيك كريمي مكرمل يُقدم مع صوص الشوكولاتة البلجيكية الدافئة.">Creamy caramelized Basque cheesecake poured with warm Belgian chocolate.</p>
-                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
-                            <span data-en="🔥 510 kcal" data-ar="🔥 ٥١٠ سعرة حرارية">🔥 510 kcal</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Category 2: Hot Coffee -->
-                <div class="menu-group space-y-3" data-group="hot">
-                    <div class="flex items-center justify-between border-b border-black/15 dark:border-white/15 pb-2">
-                        <h3 class="text-xs font-bold uppercase tracking-[0.15em]" data-en="02 / Hot Coffee" data-ar="٠٢ / قهوة ساخنة">02 / Hot Coffee</h3>
-                    </div>
-
-                    <!-- Item 1 -->
-                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <h4 class="font-bold text-sm tracking-tight" data-en="V60 Pour Over" data-ar="قهوة مقطرة V60">V60 Pour Over</h4>
-                            <span class="font-mono font-bold text-sm shrink-0" data-en="18 SAR" data-ar="١٨ ر.س">18 SAR</span>
-                        </div>
-                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Single-origin specialty filter coffee brewed to highlight floral &amp; fruity notes." data-ar="قهوة مختصة مقطرة بعناية لإبراز الإيحاءات الزهرية والفاكهية.">Single-origin specialty filter coffee brewed to highlight floral &amp; fruity notes.</p>
-                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
-                            <span data-en="🔥 5 kcal" data-ar="🔥 ٥ سعرة حرارية">🔥 5 kcal</span>
-                        </div>
-                    </div>
-
-                    <!-- Item 2 -->
-                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <h4 class="font-bold text-sm tracking-tight" data-en="Flat White" data-ar="فلات وايت">Flat White</h4>
-                            <span class="font-mono font-bold text-sm shrink-0" data-en="16 SAR" data-ar="١٦ ر.س">16 SAR</span>
-                        </div>
-                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Double ristretto shot balanced with silky micro-foamed milk." data-ar="دبل شوت ريستريتو متوازن مع حليب مبخر ناعم.">Double ristretto shot balanced with silky micro-foamed milk.</p>
-                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
-                            <span data-en="🔥 110 kcal" data-ar="🔥 ١١٠ سعرة حرارية">🔥 110 kcal</span>
-                        </div>
-                    </div>
-
-                    <!-- Item 3 -->
-                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <h4 class="font-bold text-sm tracking-tight" data-en="Spanish Latte (Hot)" data-ar="سبانش لاتيه (حار)">Spanish Latte (Hot)</h4>
-                            <span class="font-mono font-bold text-sm shrink-0" data-en="19 SAR" data-ar="١٩ ر.س">19 SAR</span>
-                        </div>
-                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Rich espresso blended with steamed milk and sweetened condensed milk." data-ar="إسبريسو غني ممزوج مع الحليب المبخر والحليب المكثف المحلى.">Rich espresso blended with steamed milk and sweetened condensed milk.</p>
-                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
-                            <span data-en="🔥 230 kcal" data-ar="🔥 ٢٣٠ سعرة حرارية">🔥 230 kcal</span>
-                        </div>
-                    </div>
-
-                    <!-- Item 4 -->
-                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <h4 class="font-bold text-sm tracking-tight" data-en="Coffee of the Day" data-ar="قهوة اليوم">Coffee of the Day</h4>
-                            <span class="font-mono font-bold text-sm shrink-0" data-en="12 SAR" data-ar="١٢ ر.س">12 SAR</span>
-                        </div>
-                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Freshly brewed daily selection of specialty black coffee." data-ar="قهوة سوداء مختصة تُحضر طازجة يومياً.">Freshly brewed daily selection of specialty black coffee.</p>
-                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
-                            <span data-en="🔥 5 kcal" data-ar="🔥 ٥ سعرة حرارية">🔥 5 kcal</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Category 3: Iced & Cold Drinks -->
-                <div class="menu-group space-y-3" data-group="cold">
-                    <div class="flex items-center justify-between border-b border-black/15 dark:border-white/15 pb-2">
-                        <h3 class="text-xs font-bold uppercase tracking-[0.15em]" data-en="03 / Iced &amp; Cold Coffee" data-ar="٠٣ / المشروبات الباردة">03 / Iced &amp; Cold Coffee</h3>
-                    </div>
-
-                    <!-- Item 1 -->
-                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <div class="flex items-center gap-2 flex-wrap">
-                                <h4 class="font-bold text-sm tracking-tight" data-en="Iced Soufflé Latte" data-ar="آيس سوفليه لاتيه">Iced Soufflé Latte</h4>
-                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-black text-white dark:bg-white dark:text-black" data-en="Popular" data-ar="الأكثر طلباً">Popular</span>
-                            </div>
-                            <span class="font-mono font-bold text-sm shrink-0" data-en="22 SAR" data-ar="٢٢ ر.س">22 SAR</span>
-                        </div>
-                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Chilled espresso over milk topped with our signature whipped vanilla cold foam." data-ar="إسبريسو بارد مع الحليب ومغطى برغوة الفانيلا الباردة الخاصة بنا.">Chilled espresso over milk topped with our signature whipped vanilla cold foam.</p>
-                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
-                            <span data-en="🔥 260 kcal" data-ar="🔥 ٢٦٠ سعرة حرارية">🔥 260 kcal</span>
-                        </div>
-                    </div>
-
-                    <!-- Item 2 -->
-                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <h4 class="font-bold text-sm tracking-tight" data-en="Iced Spanish Latte" data-ar="آيس سبانش لاتيه">Iced Spanish Latte</h4>
-                            <span class="font-mono font-bold text-sm shrink-0" data-en="20 SAR" data-ar="٢٠ ر.س">20 SAR</span>
-                        </div>
-                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Double espresso shaken with cold milk and creamy condensed milk over ice." data-ar="دبل إسبريسو مخفوق مع الحليب البارد والحليب المكثف المحلى مع الثلج.">Double espresso shaken with cold milk and creamy condensed milk over ice.</p>
-                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
-                            <span data-en="🔥 240 kcal" data-ar="🔥 ٢٤٠ سعرة حرارية">🔥 240 kcal</span>
-                        </div>
-                    </div>
-
-                    <!-- Item 3 -->
-                    <div class="p-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors">
-                        <div class="flex items-baseline justify-between gap-2">
-                            <h4 class="font-bold text-sm tracking-tight" data-en="Iced Karkadeh / Hibiscus" data-ar="كركديه بارد">Iced Karkadeh / Hibiscus</h4>
-                            <span class="font-mono font-bold text-sm shrink-0" data-en="17 SAR" data-ar="١٧ ر.س">17 SAR</span>
-                        </div>
-                        <p class="text-xs opacity-65 mt-1 leading-relaxed" data-en="Refreshing ruby hibiscus infusion served ice-cold with a hint of mint." data-ar="مشروب الكركديه المنعش يُقدم مثلجاً مع لمسة من النعناع.">Refreshing ruby hibiscus infusion served ice-cold with a hint of mint.</p>
-                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-dashed border-black/10 dark:border-white/10 text-[11px] opacity-60 font-mono">
-                            <span data-en="🔥 85 kcal" data-ar="🔥 ٨٥ سعرة حرارية">🔥 85 kcal</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Nutritional Footnote -->
-            <p class="mt-5 text-[11px] opacity-50 text-center leading-relaxed" data-en="* Adults need an average of 2,000 kcal per day. Individual calorie needs may vary." data-ar="* يحتاج البالغون إلى ٢٠٠٠ سعرة حرارية في المتوسط يومياً، وقد تختلف الاحتياجات الفردية من شخص لآخر.">
-                * Adults need an average of 2,000 kcal per day. Individual calorie needs may vary.
-            </p>
+            <!-- Menu Sections Container (Populated dynamically from MENU_SECTIONS) -->
+            <div id="menuGroups" class="space-y-7"></div>
         </section>
 
         <!-- Minimal Divider & Tagline -->
@@ -645,6 +468,105 @@
             copyTextToClipboard(currentQrUrl, linkToast);
         });
 
+        // Menu Data & Renderer
+        const MENU_SECTIONS = [
+            {
+                id: 'sweets',
+                label: { en: 'Sweets', ar: 'السويت' },
+                title: { en: '01 / Sweets', ar: '٠١ / السويت' },
+                items: [
+                    { name: { en: 'Classic Soufflé', ar: 'سوفلية كلاسيك' }, price: { en: '13 SAR', ar: '١٣ ريال' } },
+                    { name: { en: 'Oreo Soufflé', ar: 'سوفلية اوريو' }, price: { en: '14 SAR', ar: '١٤ ريال' } },
+                    { name: { en: 'Kinder Soufflé', ar: 'سوفلية كيندر' }, price: { en: '14 SAR', ar: '١٤ ريال' } },
+                    { name: { en: 'Hazelnut Soufflé', ar: 'سوفلية بندق' }, price: { en: '16 SAR', ar: '١٦ ريال' } },
+                    { name: { en: 'Belgian Soufflé', ar: 'سوفلية بلجيكي' }, price: { en: '15 SAR', ar: '١٥ ريال' } },
+                    { name: { en: 'Pistachio Soufflé', ar: 'سوفلية بستاشيو' }, price: { en: '14 SAR', ar: '١٤ ريال' } },
+                    { name: { en: 'Molten Cookies', ar: 'مولتن كوكيز' }, price: { en: '16 SAR', ar: '١٦ ريال' } },
+                    { name: { en: 'Cookies', ar: 'كوكيز' }, price: { en: '9 SAR', ar: '٩ ريال' } }
+                ]
+            },
+            {
+                id: 'sweet-box',
+                label: { en: 'Sweet Box', ar: 'السويت بوكس' },
+                title: { en: '02 / Sweet Box', ar: '٠٢ / السويت بوكس' },
+                items: [
+                    { name: { en: 'Classic Soufflé', ar: 'سوفلية كلاسيك' }, price: { en: '16 SAR', ar: '١٦ ريال' } },
+                    { name: { en: 'Oreo Soufflé', ar: 'سوفلية اوريو' }, price: { en: '17 SAR', ar: '١٧ ريال' } },
+                    { name: { en: 'Kinder Soufflé', ar: 'سوفلية كيندر' }, price: { en: '17 SAR', ar: '١٧ ريال' } },
+                    { name: { en: 'Hazelnut Soufflé', ar: 'سوفلية بندق' }, price: { en: '19 SAR', ar: '١٩ ريال' } },
+                    { name: { en: 'Belgian Soufflé', ar: 'سوفلية بلجيكي' }, price: { en: '18 SAR', ar: '١٨ ريال' } },
+                    { name: { en: 'Pistachio Soufflé', ar: 'سوفلية بستاشيو' }, price: { en: '17 SAR', ar: '١٧ ريال' } }
+                ]
+            },
+            {
+                id: 'drip-coffee',
+                label: { en: 'Drip Coffee', ar: 'القهوة المقطرة' },
+                title: { en: '03 / Drip Coffee', ar: '٠٣ / القهوة المقطرة' },
+                items: [
+                    { name: { en: 'Coffee of the Day', ar: 'قهوة اليوم' }, price: { en: '5 / 7 SAR', ar: '٥ / ٧ ريال' } },
+                    { name: { en: 'V60 Ethiopian', ar: 'V60 إثيوبي' }, price: { en: '9 SAR', ar: '٩ ريال' } },
+                    { name: { en: 'V60 Colombian', ar: 'V60 كولومبي' }, price: { en: '9 SAR', ar: '٩ ريال' } },
+                    { name: { en: 'V60 Yemeni Crop', ar: 'V60 محصول يمني' }, price: { en: '14 SAR', ar: '١٤ ريال' } },
+                    { name: { en: 'V60 Premium Crop', ar: 'V60 محصول فاخر' }, price: { en: '16 SAR', ar: '١٦ ريال' } }
+                ]
+            }
+        ];
+
+        const TAB_BASE_CLASS = 'menu-tab shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border transition-all';
+        const TAB_ACTIVE_CLASS = `${TAB_BASE_CLASS} active-tab border-black dark:border-white bg-black text-white dark:bg-white dark:text-black`;
+        const TAB_INACTIVE_CLASS = `${TAB_BASE_CLASS} border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white`;
+
+        function createBilingualEl(tag, className, textObj) {
+            const el = document.createElement(tag);
+            el.className = className;
+            el.setAttribute('data-en', textObj.en);
+            el.setAttribute('data-ar', textObj.ar);
+            el.textContent = textObj[currentLang];
+            return el;
+        }
+
+        function renderMenu() {
+            const tabsEl = document.getElementById('menuTabs');
+            const groupsEl = document.getElementById('menuGroups');
+            tabsEl.replaceChildren();
+            groupsEl.replaceChildren();
+
+            const allTab = createBilingualEl('button', TAB_ACTIVE_CLASS, { en: 'All', ar: 'الكل' });
+            allTab.setAttribute('data-category', 'all');
+            allTab.setAttribute('role', 'tab');
+            allTab.setAttribute('aria-selected', 'true');
+            tabsEl.appendChild(allTab);
+
+            MENU_SECTIONS.forEach(section => {
+                const tab = createBilingualEl('button', TAB_INACTIVE_CLASS, section.label);
+                tab.setAttribute('data-category', section.id);
+                tab.setAttribute('role', 'tab');
+                tab.setAttribute('aria-selected', 'false');
+                tabsEl.appendChild(tab);
+
+                const group = document.createElement('div');
+                group.className = 'menu-group space-y-2.5';
+                group.setAttribute('data-group', section.id);
+
+                const header = document.createElement('div');
+                header.className = 'flex items-center justify-between border-b border-black/15 dark:border-white/15 pb-2 mb-3';
+                header.appendChild(createBilingualEl('h3', 'text-xs font-bold uppercase tracking-[0.15em]', section.title));
+                group.appendChild(header);
+
+                section.items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'px-4 py-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors flex items-center justify-between gap-3';
+                    card.appendChild(createBilingualEl('h4', 'font-bold text-sm tracking-tight', item.name));
+                    card.appendChild(createBilingualEl('span', 'font-mono font-bold text-sm shrink-0', item.price));
+                    group.appendChild(card);
+                });
+
+                groupsEl.appendChild(group);
+            });
+        }
+
+        renderMenu();
+
         // Menu Category Tabs Filter Logic
         const menuTabs = document.querySelectorAll('.menu-tab');
         const menuGroups = document.querySelectorAll('.menu-group');
@@ -653,19 +575,15 @@
             tab.addEventListener('click', () => {
                 const selectedCategory = tab.getAttribute('data-category');
 
-                // Update active button styling
                 menuTabs.forEach(t => {
-                    t.className = 'menu-tab shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white transition-all';
+                    const isActive = t === tab;
+                    t.className = isActive ? TAB_ACTIVE_CLASS : TAB_INACTIVE_CLASS;
+                    t.setAttribute('aria-selected', String(isActive));
                 });
-                tab.className = 'menu-tab active-tab shrink-0 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider border border-black dark:border-white bg-black text-white dark:bg-white dark:text-black transition-all';
 
-                // Show/Hide corresponding menu sections
                 menuGroups.forEach(group => {
-                    if (selectedCategory === 'all' || group.getAttribute('data-group') === selectedCategory) {
-                        group.classList.remove('hidden');
-                    } else {
-                        group.classList.add('hidden');
-                    }
+                    const isVisible = selectedCategory === 'all' || group.getAttribute('data-group') === selectedCategory;
+                    group.classList.toggle('hidden', !isVisible);
                 });
             });
         });
