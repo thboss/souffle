@@ -52,7 +52,8 @@
         }
         html[dir="rtl"] body,
         html[dir="rtl"] #menuSection .font-display,
-        html[dir="rtl"] #menuSection .font-mono {
+        html[dir="rtl"] #menuSection .font-mono,
+        html[dir="rtl"] #photoModal .font-mono {
             font-family: 'Cairo', 'Inter', sans-serif;
         }
     </style>
@@ -322,6 +323,27 @@
         </div>
     </div>
 
+    <!-- Menu Item Photo Preview Modal -->
+    <div id="photoModal" class="fixed inset-0 z-50 hidden items-center justify-center p-6 bg-black/75 backdrop-blur-sm opacity-0 transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="photoModalTitle">
+        <div class="bg-white text-black dark:bg-[#111] dark:text-white border border-black/15 dark:border-white/15 rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300" id="photoModalCard">
+            <div class="relative aspect-square bg-black/10 dark:bg-white/5">
+                <img id="photoModalImg" src="" alt="" class="w-full h-full object-cover">
+                <button id="closePhotoBtn" type="button" class="absolute top-3 end-3 p-2 rounded-full bg-black/65 text-white hover:bg-black transition-colors" aria-label="Close photo preview">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="p-4 flex items-center justify-between gap-3">
+                <div class="min-w-0 text-start">
+                    <span id="photoModalCategory" class="block text-[10px] uppercase tracking-[0.2em] opacity-60 font-semibold"></span>
+                    <h4 id="photoModalTitle" class="font-bold text-base tracking-tight truncate"></h4>
+                </div>
+                <span id="photoModalPrice" class="font-mono font-bold text-base shrink-0"></span>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Set current year in footer
         document.getElementById('yearSpan').textContent = new Date().getFullYear();
@@ -350,6 +372,11 @@
             const translatableElements = document.querySelectorAll('[data-en][data-ar]');
             translatableElements.forEach(el => {
                 el.textContent = el.getAttribute('data-' + lang);
+            });
+
+            // Update localized image alt text
+            document.querySelectorAll('img[data-alt-en][data-alt-ar]').forEach(img => {
+                img.alt = img.getAttribute('data-alt-' + lang);
             });
         }
 
@@ -421,30 +448,31 @@
 
         let currentQrUrl = 'https://www.instagram.com/Souffle.2027';
 
-        function openQrModal() {
-            qrModal.classList.remove('hidden');
-            qrModal.classList.add('flex');
+        // Shared modal open/close transitions
+        function openModal(modal, card) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
             requestAnimationFrame(() => {
-                qrModal.classList.remove('opacity-0');
-                qrModalCard.classList.remove('scale-95');
-                qrModalCard.classList.add('scale-100');
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+                card.classList.add('scale-100');
             });
         }
 
-        function closeQrModal() {
-            qrModal.classList.add('opacity-0');
-            qrModalCard.classList.remove('scale-100');
-            qrModalCard.classList.add('scale-95');
+        function closeModal(modal, card) {
+            modal.classList.add('opacity-0');
+            card.classList.remove('scale-100');
+            card.classList.add('scale-95');
             setTimeout(() => {
-                qrModal.classList.add('hidden');
-                qrModal.classList.remove('flex');
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
             }, 250);
         }
 
-        qrBtn.addEventListener('click', openQrModal);
-        closeQrBtn.addEventListener('click', closeQrModal);
+        qrBtn.addEventListener('click', () => openModal(qrModal, qrModalCard));
+        closeQrBtn.addEventListener('click', () => closeModal(qrModal, qrModalCard));
         qrModal.addEventListener('click', (e) => {
-            if (e.target === qrModal) closeQrModal();
+            if (e.target === qrModal) closeModal(qrModal, qrModalCard);
         });
 
         qrTabIg.addEventListener('click', () => {
@@ -468,6 +496,42 @@
             copyTextToClipboard(currentQrUrl, linkToast);
         });
 
+        // Photo Preview Modal Logic
+        const photoModal = document.getElementById('photoModal');
+        const photoModalCard = document.getElementById('photoModalCard');
+        const photoModalImg = document.getElementById('photoModalImg');
+        const photoModalCategory = document.getElementById('photoModalCategory');
+        const photoModalTitle = document.getElementById('photoModalTitle');
+        const photoModalPrice = document.getElementById('photoModalPrice');
+        const closePhotoBtn = document.getElementById('closePhotoBtn');
+
+        function setBilingualAttr(el, textObj) {
+            el.setAttribute('data-en', textObj.en);
+            el.setAttribute('data-ar', textObj.ar);
+            el.textContent = textObj[currentLang];
+        }
+
+        function openPhotoModal(section, item) {
+            photoModalImg.src = item.image;
+            photoModalImg.setAttribute('data-alt-en', item.name.en);
+            photoModalImg.setAttribute('data-alt-ar', item.name.ar);
+            photoModalImg.alt = item.name[currentLang];
+            setBilingualAttr(photoModalCategory, section.label);
+            setBilingualAttr(photoModalTitle, item.name);
+            setBilingualAttr(photoModalPrice, item.price);
+            openModal(photoModal, photoModalCard);
+        }
+
+        closePhotoBtn.addEventListener('click', () => closeModal(photoModal, photoModalCard));
+        photoModal.addEventListener('click', (e) => {
+            if (e.target === photoModal) closeModal(photoModal, photoModalCard);
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Escape') return;
+            if (!photoModal.classList.contains('hidden')) closeModal(photoModal, photoModalCard);
+            if (!qrModal.classList.contains('hidden')) closeModal(qrModal, qrModalCard);
+        });
+
         // Menu Data & Renderer
         const MENU_SECTIONS = [
             {
@@ -475,14 +539,14 @@
                 label: { en: 'Sweets', ar: 'السويت' },
                 title: { en: '01 / Sweets', ar: '٠١ / السويت' },
                 items: [
-                    { name: { en: 'Classic Soufflé', ar: 'سوفلية كلاسيك' }, price: { en: '13 SAR', ar: '١٣ ريال' } },
-                    { name: { en: 'Oreo Soufflé', ar: 'سوفلية اوريو' }, price: { en: '14 SAR', ar: '١٤ ريال' } },
-                    { name: { en: 'Kinder Soufflé', ar: 'سوفلية كيندر' }, price: { en: '14 SAR', ar: '١٤ ريال' } },
-                    { name: { en: 'Hazelnut Soufflé', ar: 'سوفلية بندق' }, price: { en: '16 SAR', ar: '١٦ ريال' } },
-                    { name: { en: 'Belgian Soufflé', ar: 'سوفلية بلجيكي' }, price: { en: '15 SAR', ar: '١٥ ريال' } },
-                    { name: { en: 'Pistachio Soufflé', ar: 'سوفلية بستاشيو' }, price: { en: '14 SAR', ar: '١٤ ريال' } },
-                    { name: { en: 'Molten Cookies', ar: 'مولتن كوكيز' }, price: { en: '16 SAR', ar: '١٦ ريال' } },
-                    { name: { en: 'Cookies', ar: 'كوكيز' }, price: { en: '9 SAR', ar: '٩ ريال' } }
+                    { name: { en: 'Classic Soufflé', ar: 'سوفلية كلاسيك' }, price: { en: '13 SAR', ar: '١٣ ريال' }, image: 'images/menu/classic-souffle.jpg' },
+                    { name: { en: 'Oreo Soufflé', ar: 'سوفلية اوريو' }, price: { en: '14 SAR', ar: '١٤ ريال' }, image: 'images/menu/oreo-souffle.jpg' },
+                    { name: { en: 'Kinder Soufflé', ar: 'سوفلية كيندر' }, price: { en: '14 SAR', ar: '١٤ ريال' }, image: 'images/menu/kinder-souffle.jpg' },
+                    { name: { en: 'Hazelnut Soufflé', ar: 'سوفلية بندق' }, price: { en: '16 SAR', ar: '١٦ ريال' }, image: 'images/menu/hazelnut-souffle.jpg' },
+                    { name: { en: 'Belgian Soufflé', ar: 'سوفلية بلجيكي' }, price: { en: '15 SAR', ar: '١٥ ريال' }, image: 'images/menu/belgian-souffle.jpg' },
+                    { name: { en: 'Pistachio Soufflé', ar: 'سوفلية بستاشيو' }, price: { en: '14 SAR', ar: '١٤ ريال' }, image: 'images/menu/pistachio-souffle.jpg' },
+                    { name: { en: 'Molten Cookies', ar: 'مولتن كوكيز' }, price: { en: '16 SAR', ar: '١٦ ريال' }, image: 'images/menu/molten-cookies.jpg' },
+                    { name: { en: 'Cookies', ar: 'كوكيز' }, price: { en: '9 SAR', ar: '٩ ريال' }, image: 'images/menu/cookies.jpg' }
                 ]
             },
             {
@@ -490,12 +554,12 @@
                 label: { en: 'Sweet Box', ar: 'السويت بوكس' },
                 title: { en: '02 / Sweet Box', ar: '٠٢ / السويت بوكس' },
                 items: [
-                    { name: { en: 'Classic Soufflé', ar: 'سوفلية كلاسيك' }, price: { en: '16 SAR', ar: '١٦ ريال' } },
-                    { name: { en: 'Oreo Soufflé', ar: 'سوفلية اوريو' }, price: { en: '17 SAR', ar: '١٧ ريال' } },
-                    { name: { en: 'Kinder Soufflé', ar: 'سوفلية كيندر' }, price: { en: '17 SAR', ar: '١٧ ريال' } },
-                    { name: { en: 'Hazelnut Soufflé', ar: 'سوفلية بندق' }, price: { en: '19 SAR', ar: '١٩ ريال' } },
-                    { name: { en: 'Belgian Soufflé', ar: 'سوفلية بلجيكي' }, price: { en: '18 SAR', ar: '١٨ ريال' } },
-                    { name: { en: 'Pistachio Soufflé', ar: 'سوفلية بستاشيو' }, price: { en: '17 SAR', ar: '١٧ ريال' } }
+                    { name: { en: 'Classic Soufflé', ar: 'سوفلية كلاسيك' }, price: { en: '16 SAR', ar: '١٦ ريال' }, image: 'images/menu/box-classic-souffle.jpg' },
+                    { name: { en: 'Oreo Soufflé', ar: 'سوفلية اوريو' }, price: { en: '17 SAR', ar: '١٧ ريال' }, image: 'images/menu/box-oreo-souffle.jpg' },
+                    { name: { en: 'Kinder Soufflé', ar: 'سوفلية كيندر' }, price: { en: '17 SAR', ar: '١٧ ريال' }, image: 'images/menu/kinder-souffle.jpg' },
+                    { name: { en: 'Hazelnut Soufflé', ar: 'سوفلية بندق' }, price: { en: '19 SAR', ar: '١٩ ريال' }, image: 'images/menu/hazelnut-souffle.jpg' },
+                    { name: { en: 'Belgian Soufflé', ar: 'سوفلية بلجيكي' }, price: { en: '18 SAR', ar: '١٨ ريال' }, image: 'images/menu/belgian-souffle.jpg' },
+                    { name: { en: 'Pistachio Soufflé', ar: 'سوفلية بستاشيو' }, price: { en: '17 SAR', ar: '١٧ ريال' }, image: 'images/menu/pistachio-souffle.jpg' }
                 ]
             },
             {
@@ -503,11 +567,11 @@
                 label: { en: 'Drip Coffee', ar: 'القهوة المقطرة' },
                 title: { en: '03 / Drip Coffee', ar: '٠٣ / القهوة المقطرة' },
                 items: [
-                    { name: { en: 'Coffee of the Day', ar: 'قهوة اليوم' }, price: { en: '5 / 7 SAR', ar: '٥ / ٧ ريال' } },
-                    { name: { en: 'V60 Ethiopian', ar: 'V60 إثيوبي' }, price: { en: '9 SAR', ar: '٩ ريال' } },
-                    { name: { en: 'V60 Colombian', ar: 'V60 كولومبي' }, price: { en: '9 SAR', ar: '٩ ريال' } },
-                    { name: { en: 'V60 Yemeni Crop', ar: 'V60 محصول يمني' }, price: { en: '14 SAR', ar: '١٤ ريال' } },
-                    { name: { en: 'V60 Premium Crop', ar: 'V60 محصول فاخر' }, price: { en: '16 SAR', ar: '١٦ ريال' } }
+                    { name: { en: 'Coffee of the Day', ar: 'قهوة اليوم' }, price: { en: '5 / 7 SAR', ar: '٥ / ٧ ريال' }, image: 'images/menu/coffee-of-the-day.jpg' },
+                    { name: { en: 'V60 Ethiopian', ar: 'V60 إثيوبي' }, price: { en: '9 SAR', ar: '٩ ريال' }, image: 'images/menu/v60-ethiopian.jpg' },
+                    { name: { en: 'V60 Colombian', ar: 'V60 كولومبي' }, price: { en: '9 SAR', ar: '٩ ريال' }, image: 'images/menu/v60-premium.jpg' },
+                    { name: { en: 'V60 Yemeni Crop', ar: 'V60 محصول يمني' }, price: { en: '14 SAR', ar: '١٤ ريال' }, image: 'images/menu/v60-ethiopian.jpg' },
+                    { name: { en: 'V60 Premium Crop', ar: 'V60 محصول فاخر' }, price: { en: '16 SAR', ar: '١٦ ريال' }, image: 'images/menu/v60-premium.jpg' }
                 ]
             }
         ];
@@ -519,10 +583,45 @@
         function createBilingualEl(tag, className, textObj) {
             const el = document.createElement(tag);
             el.className = className;
-            el.setAttribute('data-en', textObj.en);
-            el.setAttribute('data-ar', textObj.ar);
-            el.textContent = textObj[currentLang];
+            setBilingualAttr(el, textObj);
             return el;
+        }
+
+        function createMenuItemCard(section, item) {
+            const card = document.createElement('button');
+            card.type = 'button';
+            card.className = 'group w-full p-3 rounded-2xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors flex items-center justify-between gap-3.5 text-start cursor-pointer';
+            card.addEventListener('click', () => openPhotoModal(section, item));
+
+            const info = document.createElement('div');
+            info.className = 'flex items-center gap-3.5 min-w-0';
+
+            const thumbWrap = document.createElement('div');
+            thumbWrap.className = 'relative w-16 h-16 shrink-0 rounded-xl overflow-hidden border border-black/10 dark:border-white/10 bg-black/[0.04] dark:bg-white/[0.06]';
+
+            const img = document.createElement('img');
+            img.src = item.image;
+            img.loading = 'lazy';
+            img.decoding = 'async';
+            img.className = 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-300';
+            img.setAttribute('data-alt-en', item.name.en);
+            img.setAttribute('data-alt-ar', item.name.ar);
+            img.alt = item.name[currentLang];
+            thumbWrap.appendChild(img);
+
+            const titleWrap = document.createElement('div');
+            titleWrap.className = 'min-w-0';
+            titleWrap.appendChild(createBilingualEl('h4', 'font-bold text-sm tracking-tight leading-snug', item.name));
+
+            if (section.id === 'sweet-box') {
+                titleWrap.appendChild(createBilingualEl('span', 'inline-block mt-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-black/[0.06] dark:bg-white/[0.1] opacity-75', { en: 'Box', ar: 'بوكس' }));
+            }
+
+            info.appendChild(thumbWrap);
+            info.appendChild(titleWrap);
+            card.appendChild(info);
+            card.appendChild(createBilingualEl('span', 'font-mono font-bold text-sm shrink-0', item.price));
+            return card;
         }
 
         function renderMenu() {
@@ -554,11 +653,7 @@
                 group.appendChild(header);
 
                 section.items.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'px-4 py-3.5 rounded-xl border border-black/10 dark:border-white/10 bg-black/[0.015] dark:bg-white/[0.02] hover:border-black/40 dark:hover:border-white/40 transition-colors flex items-center justify-between gap-3';
-                    card.appendChild(createBilingualEl('h4', 'font-bold text-sm tracking-tight', item.name));
-                    card.appendChild(createBilingualEl('span', 'font-mono font-bold text-sm shrink-0', item.price));
-                    group.appendChild(card);
+                    group.appendChild(createMenuItemCard(section, item));
                 });
 
                 groupsEl.appendChild(group);
